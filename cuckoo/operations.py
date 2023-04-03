@@ -1,3 +1,9 @@
+""" Copyright start
+  Copyright (C) 2008 - 2023 Fortinet Inc.
+  All rights reserved.
+  FORTINET CONFIDENTIAL & FORTINET PROPRIETARY SOURCE CODE
+  Copyright end """
+
 import requests
 from connectors.core.connector import ConnectorError, get_logger
 from integrations.crudhub import make_request
@@ -13,12 +19,13 @@ class Cuckoo(object):
         self._url = '{0}:{1}'.format(self._server_url, self._port)
         if not self._url.startswith('http://'):
             self._url = 'https://' + self._url
+        self._header = { "Authorization": "Bearer " + config.get('api_token') }
 
     def submit_sample(self, file_data):
         endpoint = self._url + "/tasks/create/file"
         files = {'file': file_data}
         try:
-            response = requests.post(endpoint, files=files, verify=False)
+            response = requests.post(endpoint, headers=self._header, files=files, verify=False)
             self.log.info("response_content {0}".format(response.content))
             if response.ok:
                 return response.json()
@@ -32,7 +39,7 @@ class Cuckoo(object):
     def detonate_file(self, params):
         try:
             file_iri = params.get('file')
-            self.log.info("file_iri is {}".format(file_iri))
+            self.log.debug("file_iri is {}".format(file_iri))
             if isinstance(file_iri, bytes):
                 file_iri = file_iri.decode("utf-8")
             file_data = make_request(file_iri, "GET")
@@ -51,7 +58,7 @@ class Cuckoo(object):
         endpoint_url = self._url + "/tasks/create/url"
 
         try:
-            response = requests.post(endpoint_url, data=data, verify=False)
+            response = requests.post(endpoint_url, headers=self._header, data=data, verify=False)
             self.log.info("response_content {0}".format(response.json()))
             if response.ok:
                 return response.json()
@@ -73,7 +80,7 @@ class Cuckoo(object):
         endpoint = self._url + "/tasks/report/{0}".format(task_id)
         self.log.info("Endpoint URL : {0}".format(endpoint))
         try:
-            response = requests.get(endpoint, verify=False)
+            response = requests.get(endpoint, headers=self._header, verify=False)
             if response.ok:
                 return response.json()
             else:
@@ -85,10 +92,10 @@ class Cuckoo(object):
             raise ConnectorError(e)
 
     def _check_health(self):
-        endpoint = self._url + "/tasks/list"
+        endpoint = self._url + "/cuckoo/status"
         try:
-            response = requests.get(endpoint, verify=False)
-            if response.ok:
+            response = requests.get(endpoint, headers=self._header, verify=False)
+            if response.json()["version"]:
                 return True
             else:
                 self.log.error("_check_health: Failed Please check the Configuration: Status_code : {}".format(
