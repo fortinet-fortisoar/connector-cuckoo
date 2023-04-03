@@ -1,0 +1,333 @@
+{
+  "type": "workflow_collections",
+  "data": [
+    {
+      "@type": "WorkflowCollection",
+      "name": "Sample - Cuckoo - 1.0.0",
+      "description": "Sample playbooks for Cuckoo Connector to demonstrate detonation of file and URL samples into the Cuckoo Sandbox and fetch report from Cuckoo for submitted samples.",
+      "visible": true,
+      "image": null,
+      "workflows": [
+        {
+          "@type": "Workflow",
+          "triggerLimit": null,
+          "name": "Get Report",
+          "description": null,
+          "collection": "/api/3/workflow_collections/7c2ab3ef-3f70-4e7e-92bb-e15c33b6def5",
+          "tag": "cuckoo",
+          "isActive": false,
+          "parameters": [],
+          "synchronous": false,
+          "triggerStep": "/api/3/workflow_steps/5bc2d2c0-8697-400d-b8e3-a474f0decbdd",
+          "steps": [
+            {
+              "@type": "WorkflowStep",
+              "name": "Start",
+              "arguments": {
+                "route": "7430cead-452c-4931-80bb-8a9e302b3691",
+                "resources": [
+                  "attachments"
+                ],
+                "inputVariables": []
+              },
+              "status": null,
+              "left": "180",
+              "top": "40",
+              "stepType": "/api/3/workflow_step_types/f414d039-bb0d-4e59-9c39-a8f1e880b18a",
+              "uuid": "5bc2d2c0-8697-400d-b8e3-a474f0decbdd"
+            },
+            {
+              "@type": "WorkflowStep",
+              "name": "Get the Attachment details",
+              "arguments": {
+                "attachement_iri": "{{vars.request.data.records[0][\"@id\"]}}"
+              },
+              "status": null,
+              "left": "411",
+              "top": "120",
+              "stepType": "/api/3/workflow_step_types/04d0cf46-b6a8-42c4-8683-60a7eaa69e8f",
+              "uuid": "6fc73818-b183-4540-a9fb-ae9511f7afe2"
+            },
+            {
+              "@type": "WorkflowStep",
+              "name": "Get Report",
+              "arguments": {
+                "name": "Cuckoo",
+                "config": "e471e65d-5551-4d5d-b1bd-de682185189a",
+                "params": {
+                  "taskid": "107"
+                },
+                "version": "1.0.0",
+                "connector": "cuckoo",
+                "operation": "get_report",
+                "operationTitle": "Get Report",
+                "operationOutput": []
+              },
+              "status": null,
+              "left": "370",
+              "top": "214",
+              "stepType": "/api/3/workflow_step_types/0bfed618-0316-11e7-93ae-92361f002671",
+              "uuid": "c0f52edb-a67b-4e64-89cc-0aa296804833"
+            },
+            {
+              "@type": "WorkflowStep",
+              "name": "Get the Results",
+              "arguments": {
+                "score": "{{vars.result.data.info.score}}",
+                "Status": "{{vars.result.status}}",
+                "category": "{{vars.result.data.info.category}}",
+                "signatures": "{{vars.result.data.signatures}}",
+                "analysis_machine": "{{vars.result.data.info.machine}}"
+              },
+              "status": null,
+              "left": "233",
+              "top": "360",
+              "stepType": "/api/3/workflow_step_types/04d0cf46-b6a8-42c4-8683-60a7eaa69e8f",
+              "uuid": "e0e8c962-f53f-4f22-be3e-c59bc849be59"
+            },
+            {
+              "@type": "WorkflowStep",
+              "name": "Table Format",
+              "arguments": {
+                "script": "/wf/workflow/tasks/update_data",
+                "arguments": {
+                  "resource": "{\"description\": \" \t\t\t \t\t\t\t\t\t \t\t\t\t\t\t\t\t\t<table border='1' style='width: 25%'> \t\t\t\t\t\t\t\t\t\t<tr> \t\t\t\t\t\t\t\t\t\t\t<td width ='30%'> \t\t\t\t\t\t\t\t\t\t\t\t<b> \t\t\t\t\t\t\t\t\t\t\t\t\t<center>Score  \t\t\t\t\t\t\t \t\t\t\t\t\t\t\t\t\t \t\t\t\t\t\t\t\t\t\t\t\t\t</b> \t\t\t\t\t\t\t\t\t\t\t\t</center> \t\t\t\t\t\t\t\t\t\t\t</td> \t\t\t\t\t\t\t\t\t\t\t<td width ='30%'> \t\t\t\t\t\t\t\t\t\t\t\t<b> \t\t\t\t\t\t\t\t\t\t\t\t\t<center>Status  \t\t\t\t\t\t\t \t\t\t\t\t\t\t\t\t\t \t\t\t\t\t\t\t\t\t\t\t\t\t</b> \t\t\t\t\t\t\t\t\t\t\t\t</center> \t\t\t\t\t\t\t\t\t\t\t</td> \t\t\t\t\t\t\t\t\t\t\t<td width ='30%'> \t\t\t\t\t\t\t\t\t\t\t\t<b> \t\t\t\t\t\t\t\t\t\t\t\t\t<center>Category  \t\t\t\t\t\t\t \t\t\t\t\t\t\t\t\t\t \t\t\t\t\t\t\t\t\t\t\t\t\t</b> \t\t\t\t\t\t\t\t\t\t\t\t</center> \t\t\t\t\t\t\t\t\t\t\t</td> \t\t\t\t\t\t\t\t\t\t</tr> \t\t\t\t\t\t\t\t\t\t<tr> \t\t\t\t\t\t\t\t\t\t\t<td> {{vars.score}}</td> \t\t\t\t\t\t\t\t\t\t\t<td> {{vars.Status}}</td> \t\t\t\t\t\t\t\t\t\t\t<td> {{vars.category}}</td> \t\t\t\t\t\t\t\t\t\t</tr> \t\t\t\t\t\t\t\t\t</table> \t\t\t\t\t\t\t\t\t<br> \t\t\t\t\t\t\t\t\t\t<br> \t\t\t\t\t\t\t\t\t\t\t<table border='1' style='width: 30%'> \t\t\t\t\t\t\t\t\t\t\t\t<tr> \t\t\t\t\t\t\t\t\t\t\t\t\t<td> \t\t\t\t\t\t\t\t\t\t\t\t\t\t<b> \t\t\t\t\t\t\t\t\t\t\t\t\t\t\t<center>Signatures  \t\t\t\t\t\t\t\t\t \t\t\t\t\t\t\t\t\t\t\t\t \t\t\t\t\t\t\t\t\t\t\t\t\t\t\t</b> \t\t\t\t\t\t\t\t\t\t\t\t\t\t</center> \t\t\t\t\t\t\t\t\t\t\t\t\t</td> \t\t\t\t\t\t\t\t\t\t\t\t</tr> \t\t\t\t\t\t\t\t\t\t\t\t<tr> \t\t\t\t\t\t\t\t\t\t\t\t\t<td> {% for signature in vars.signatures %} {{signature}} {%endfor%}</td> \t\t\t\t\t\t\t\t\t\t\t\t</tr> \t\t\t\t\t\t\t\t\t\t\t</table> \t\t\t\t\t\t\t\t\t\t\t<br> \t\t\t\t\t\t\t\t\t\t\t\t<br> \t\t\t\t\t\t\t\t\t\t\t\t\t<table border='1' style='width: 60%'> \t\t\t\t\t\t\t\t\t\t\t\t\t\t<tr> \t\t\t\t\t\t\t\t\t\t\t\t\t\t\t<td > \t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t<b>Analysis Machine</b> \t\t\t\t\t\t\t\t\t\t\t\t\t\t\t</td> \t\t\t\t\t\t\t\t\t\t\t\t\t\t</tr> \t\t\t\t\t\t\t\t\t\t\t\t\t\t<tr> \t\t\t\t\t\t\t\t\t\t\t\t\t\t\t<td width ='30%'>  Started On</td> \t\t\t\t\t\t\t\t\t\t\t\t\t\t\t<td width ='30%'>{{vars.analysis_machine.started_on}}</td> \t\t\t\t\t\t\t\t\t\t\t\t\t\t</tr> \t\t\t\t\t\t\t\t\t\t\t\t\t\t<tr> \t\t\t\t\t\t\t\t\t\t\t\t\t\t\t<td>Shutdown On </td> \t\t\t\t\t\t\t\t\t\t\t\t\t\t\t<td> {{vars.analysis_machine.shutdown_on}} \t\t\t\t\t\t\t\t\t \t\t\t\t\t\t\t\t\t\t\t\t \t\t\t\t\t\t\t\t\t\t\t\t\t\t\t</tr> \t\t\t\t\t\t\t\t\t\t\t\t\t\t</td> \t\t\t\t\t\t\t\t\t\t\t\t\t\t<tr> \t\t\t\t\t\t\t\t\t\t\t\t\t\t\t<td> Name </td> \t\t\t\t\t\t\t\t\t\t\t\t\t\t\t<td> {{vars.analysis_machine.name}}</td> \t\t\t\t\t\t\t\t\t\t\t\t\t\t</tr> \t\t\t\t\t\t\t\t\t\t\t\t\t\t<tr> \t\t\t\t\t\t\t\t\t\t\t\t\t\t\t<td>Manager </td> \t\t\t\t\t\t\t\t\t\t\t\t\t\t\t<td> {{vars.analysis_machine.manager}}</td> \t\t\t\t\t\t\t\t\t\t\t\t\t\t</tr> \t\t\t\t\t\t\t\t\t\t\t\t\t\t<tr> \t\t\t\t\t\t\t\t\t\t\t\t\t\t\t<td>VirtualBox </td> \t\t\t\t\t\t\t\t\t\t\t\t\t\t\t<td> {{vars.analysis_machine.VirtualBox}}</td> \t\t\t\t\t\t\t\t\t\t\t\t\t\t</tr> \t\t\t\t\t\t\t\t\t\t\t\t\t\t<tr> \t\t\t\t\t\t\t\t\t\t\t\t\t\t\t<td>Status </td> \t\t\t\t\t\t\t\t\t\t\t\t\t\t\t<td> {{vars.analysis_machine.status}}</td> \t\t\t\t\t\t\t\t\t\t\t\t\t\t</tr> \t\t\t\t\t\t\t\t\t\t\t\t\t\t<tr> \t\t\t\t\t\t\t\t\t\t\t\t\t\t\t<td>Label </td> \t\t\t\t\t\t\t\t\t\t\t\t\t\t\t<td>{{vars.analysis_machine.lable}} </td> \t\t\t\t\t\t\t\t\t\t\t\t\t\t</tr> \t\t\t\t\t\t\t\t\t\t\t\t\t</table>\"}",
+                  "collection": "{{vars.attachement_iri}}"
+                }
+              },
+              "status": null,
+              "left": "0",
+              "top": "280",
+              "stepType": "/api/3/workflow_step_types/ee73e569-2188-43fe-a7f0-1964ba82a4de",
+              "uuid": "f0432fc0-328d-4080-bd70-22a266dc7a32"
+            }
+          ],
+          "routes": [
+            {
+              "@type": "WorkflowRoute",
+              "uuid": "ee0bfdf7-1afb-40ab-8be2-16ea8fb58e74",
+              "name": "Get Report -> Get the Results",
+              "isExecuted": false,
+              "targetStep": "/api/3/workflow_steps/e0e8c962-f53f-4f22-be3e-c59bc849be59",
+              "sourceStep": "/api/3/workflow_steps/c0f52edb-a67b-4e64-89cc-0aa296804833"
+            },
+            {
+              "@type": "WorkflowRoute",
+              "uuid": "ab9f4a93-0a16-424c-8160-26d4189b5e0d",
+              "name": "Start -> Get the Attachment details",
+              "isExecuted": false,
+              "targetStep": "/api/3/workflow_steps/6fc73818-b183-4540-a9fb-ae9511f7afe2",
+              "sourceStep": "/api/3/workflow_steps/5bc2d2c0-8697-400d-b8e3-a474f0decbdd"
+            },
+            {
+              "@type": "WorkflowRoute",
+              "uuid": "0a5e6f3c-324a-4ccb-b444-2b5420b8aa13",
+              "name": "Get the Attachment details -> Get Report",
+              "isExecuted": false,
+              "targetStep": "/api/3/workflow_steps/c0f52edb-a67b-4e64-89cc-0aa296804833",
+              "sourceStep": "/api/3/workflow_steps/6fc73818-b183-4540-a9fb-ae9511f7afe2"
+            },
+            {
+              "@type": "WorkflowRoute",
+              "uuid": "fe0cd90c-164c-4869-9650-5c288e0502c8",
+              "name": "Get the Results -> Table Format",
+              "isExecuted": false,
+              "targetStep": "/api/3/workflow_steps/f0432fc0-328d-4080-bd70-22a266dc7a32",
+              "sourceStep": "/api/3/workflow_steps/e0e8c962-f53f-4f22-be3e-c59bc849be59"
+            }
+          ],
+          "uuid": "f0ef368a-13f4-43ec-8ef2-c765138a97d7"
+        },
+        {
+          "@type": "Workflow",
+          "triggerLimit": null,
+          "name": "Submit File",
+          "description": null,
+          "collection": "/api/3/workflow_collections/7c2ab3ef-3f70-4e7e-92bb-e15c33b6def5",
+          "tag": "cuckoo",
+          "isActive": false,
+          "parameters": [],
+          "synchronous": false,
+          "triggerStep": "/api/3/workflow_steps/c1bec689-8f07-4919-8fbd-4555cb15961b",
+          "steps": [
+            {
+              "@type": "WorkflowStep",
+              "name": "Get the Task ID",
+              "arguments": {
+                "task_id": "{{vars.steps.Submit_File.data.task_id}}"
+              },
+              "status": null,
+              "left": "468",
+              "top": "360",
+              "stepType": "/api/3/workflow_step_types/04d0cf46-b6a8-42c4-8683-60a7eaa69e8f",
+              "uuid": "b044a65d-3647-430f-a370-cd8281848438"
+            },
+            {
+              "@type": "WorkflowStep",
+              "name": "Start",
+              "arguments": {
+                "route": "0b2fbb46-b909-41c0-a1d2-6bc9355d49ec",
+                "resources": [
+                  "attachments"
+                ],
+                "inputVariables": []
+              },
+              "status": null,
+              "left": "240",
+              "top": "20",
+              "stepType": "/api/3/workflow_step_types/f414d039-bb0d-4e59-9c39-a8f1e880b18a",
+              "uuid": "c1bec689-8f07-4919-8fbd-4555cb15961b"
+            },
+            {
+              "@type": "WorkflowStep",
+              "name": "Get the attachment details",
+              "arguments": {
+                "file_iri": "{{vars.request.data.records[0].file[\"@id\"]}}"
+              },
+              "status": null,
+              "left": "240",
+              "top": "129",
+              "stepType": "/api/3/workflow_step_types/04d0cf46-b6a8-42c4-8683-60a7eaa69e8f",
+              "uuid": "d13e708f-fcef-4ea4-8412-601869b8e2a7"
+            },
+            {
+              "@type": "WorkflowStep",
+              "name": "Submit File",
+              "arguments": {
+                "name": "Cuckoo",
+                "config": "e471e65d-5551-4d5d-b1bd-de682185189a",
+                "params": {
+                  "file": "{{vars.file_iri}}"
+                },
+                "version": "1.0.0",
+                "connector": "cuckoo",
+                "operation": "submit_file",
+                "operationTitle": "Submit File",
+                "operationOutput": {
+                  "task_id": ""
+                }
+              },
+              "status": null,
+              "left": "579",
+              "top": "232",
+              "stepType": "/api/3/workflow_step_types/0bfed618-0316-11e7-93ae-92361f002671",
+              "uuid": "fc838ddc-27ea-4a4c-9519-7e60397ab738"
+            }
+          ],
+          "routes": [
+            {
+              "@type": "WorkflowRoute",
+              "uuid": "0f678239-ae4b-48d9-9863-e30b193f63b8",
+              "name": "Start -> Get the attachment details",
+              "isExecuted": false,
+              "targetStep": "/api/3/workflow_steps/d13e708f-fcef-4ea4-8412-601869b8e2a7",
+              "sourceStep": "/api/3/workflow_steps/c1bec689-8f07-4919-8fbd-4555cb15961b"
+            },
+            {
+              "@type": "WorkflowRoute",
+              "uuid": "0698fd1f-dd82-495a-974a-7e778d3631e2",
+              "name": "Get the attachment details -> Submit File",
+              "isExecuted": false,
+              "targetStep": "/api/3/workflow_steps/fc838ddc-27ea-4a4c-9519-7e60397ab738",
+              "sourceStep": "/api/3/workflow_steps/d13e708f-fcef-4ea4-8412-601869b8e2a7"
+            },
+            {
+              "@type": "WorkflowRoute",
+              "uuid": "af6c029c-1e32-4224-a619-7d530691fcc9",
+              "name": "Submit File -> Get the Task ID",
+              "isExecuted": false,
+              "targetStep": "/api/3/workflow_steps/b044a65d-3647-430f-a370-cd8281848438",
+              "sourceStep": "/api/3/workflow_steps/fc838ddc-27ea-4a4c-9519-7e60397ab738"
+            }
+          ],
+          "uuid": "6b85dd99-d9ef-41a4-82b6-d9c9b47f803e"
+        },
+        {
+          "@type": "Workflow",
+          "triggerLimit": null,
+          "name": "Submit URL",
+          "description": null,
+          "collection": "/api/3/workflow_collections/7c2ab3ef-3f70-4e7e-92bb-e15c33b6def5",
+          "tag": "cuckoo",
+          "isActive": false,
+          "parameters": [],
+          "synchronous": false,
+          "triggerStep": "/api/3/workflow_steps/f6b6e45b-3045-4a51-be86-4f39767d01be",
+          "steps": [
+            {
+              "@type": "WorkflowStep",
+              "name": "Get Results",
+              "arguments": {
+                "task_id": "{{vars.steps.Submit_URL.data.task_id}}"
+              },
+              "status": null,
+              "left": "247",
+              "top": "360",
+              "stepType": "/api/3/workflow_step_types/04d0cf46-b6a8-42c4-8683-60a7eaa69e8f",
+              "uuid": "3224d1fb-a606-4fe7-b3ce-f3fe60eea9e6"
+            },
+            {
+              "@type": "WorkflowStep",
+              "name": "Submit URL",
+              "arguments": {
+                "name": "Cuckoo",
+                "config": "e471e65d-5551-4d5d-b1bd-de682185189a",
+                "params": {
+                  "url": "www.malwareurl.com"
+                },
+                "version": "1.0.0",
+                "connector": "cuckoo",
+                "operation": "submit_url",
+                "operationTitle": "Submit URL",
+                "operationOutput": {
+                  "task_id": ""
+                }
+              },
+              "status": null,
+              "left": "561",
+              "top": "112",
+              "stepType": "/api/3/workflow_step_types/0bfed618-0316-11e7-93ae-92361f002671",
+              "uuid": "eccdd1a5-4925-44c4-bee3-c51df75c7cd6"
+            },
+            {
+              "@type": "WorkflowStep",
+              "name": "Start",
+              "arguments": {
+                "route": "32a80fef-ce30-498a-aa31-8dcdcfdcdff5",
+                "resources": [
+                  "attachments"
+                ],
+                "inputVariables": []
+              },
+              "status": null,
+              "left": "111",
+              "top": "40",
+              "stepType": "/api/3/workflow_step_types/f414d039-bb0d-4e59-9c39-a8f1e880b18a",
+              "uuid": "f6b6e45b-3045-4a51-be86-4f39767d01be"
+            }
+          ],
+          "routes": [
+            {
+              "@type": "WorkflowRoute",
+              "uuid": "31eecf93-0d6d-4b9f-be45-274a163fc71a",
+              "name": "Start -> Submit URL",
+              "isExecuted": false,
+              "targetStep": "/api/3/workflow_steps/eccdd1a5-4925-44c4-bee3-c51df75c7cd6",
+              "sourceStep": "/api/3/workflow_steps/f6b6e45b-3045-4a51-be86-4f39767d01be"
+            },
+            {
+              "@type": "WorkflowRoute",
+              "uuid": "b02af66f-3045-4a7b-8bf7-e08fbb16c776",
+              "name": "Submit URL -> Get Results",
+              "isExecuted": false,
+              "targetStep": "/api/3/workflow_steps/3224d1fb-a606-4fe7-b3ce-f3fe60eea9e6",
+              "sourceStep": "/api/3/workflow_steps/eccdd1a5-4925-44c4-bee3-c51df75c7cd6"
+            }
+          ],
+          "uuid": "6f2edf20-3a52-479b-a625-b69a096a1f5a"
+        }
+      ],
+      "uuid": "7c2ab3ef-3f70-4e7e-92bb-e15c33b6def5"
+    }
+  ]
+}

@@ -1,0 +1,95 @@
+{
+  "name": "cuckoo",
+  "label": "Cuckoo",
+  "version": "1.0.0",
+  "description": "This Connector supports executing investigative actions like detonate file and detonate url to analyze executables and URLs on the Cuckoo sandbox.",
+  "publisher": "CyberSponse",
+  "cs_approved": true,
+  "cs_compatible": true,
+  "category": "investigation",
+  "icon_small_name": "small.png",
+  "icon_large_name": "large.png",
+  "help_online" : "https://help.cybersponse.com/support/solutions/articles/17000061910-cuckoo-v1-0-0",
+  "configuration": {
+    "fields": [
+      {
+        "title": "Server",
+        "required": true,
+        "editable": true,
+        "visible": true,
+        "type": "text",
+        "name": "server_ip"
+      },
+      {
+        "title": "Port Number",
+        "required": true,
+        "editable": true,
+        "visible": true,
+        "type": "text",
+        "name": "port"
+      }
+    ]
+  },
+  "operations": [
+    {
+      "operation": "submit_file",
+      "title": "Submit File",
+      "description": "This action detonates the File in Cuckoo Sandbox",
+      "category": "investigation",
+      "annotation": "submit_sample",
+      "output_schema": {"task_id" : ""},
+      "enabled": true,
+      "parameters": [
+        {
+          "title": "File to detonate",
+          "required": true,
+          "editable": true,
+          "visible": true,
+          "type": "text",
+          "name": "file",
+          "value": ""
+        }
+      ]
+    },
+    {
+      "operation": "submit_url",
+      "title": "Submit URL",
+      "description": "This Action detonates the URL in cuckoo Sandbox",
+      "category": "investigation",
+      "annotation": "submit_url",
+      "output_schema": {"task_id" : ""},
+      "enabled": true,
+      "parameters": [
+        {
+          "title": "URL to detonate",
+          "required": true,
+          "editable": true,
+          "visible": true,
+          "type": "text",
+          "name": "url",
+          "value": ""
+        }
+      ]
+    },
+    {
+      "operation": "get_report",
+      "title": "Get Report",
+      "description": "This Action detonates the URL in cuckoo Sandbox",
+      "category": "investigation",
+      "annotation": "get_reputation",
+      "output_schema": {},
+      "enabled": true,
+      "parameters": [
+        {
+          "title": "TaskID of the Report",
+          "required": true,
+          "editable": true,
+          "visible": true,
+          "type": "text",
+          "name": "taskid",
+          "value": ""
+        }
+      ]
+    }
+  ]
+}
