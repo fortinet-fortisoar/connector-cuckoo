@@ -1,32 +1,46 @@
 {
   "name": "cuckoo",
+  "version": "1.1.0",
   "label": "Cuckoo",
-  "version": "1.0.0",
-  "description": "This Connector supports executing investigative actions like detonate file and detonate url to analyze executables and URLs on the Cuckoo sandbox.",
-  "publisher": "CyberSponse",
-  "cs_approved": true,
+  "description": "Cuckoo sandbox is an open source software for automating analysis of suspicious files. To do so it makes use of custom components that monitor the behavior of the malicious processes while running in an isolated environment.",
+  "publisher": "Fortinet",
+  "cs_approved": false,
   "cs_compatible": true,
-  "category": "investigation",
   "icon_small_name": "small.png",
   "icon_large_name": "large.png",
-  "help_online" : "https://help.cybersponse.com/support/solutions/articles/17000061910-cuckoo-v1-0-0",
+  "category": "Malware Analysis",
+  "help_online": "",
   "configuration": {
     "fields": [
       {
         "title": "Server",
-        "required": true,
-        "editable": true,
-        "visible": true,
         "type": "text",
-        "name": "server_ip"
+        "name": "server_ip",
+        "required": true,
+        "visible": true,
+        "editable": true,
+        "description": "IP address or the hostname URL of the Cuckoo server to which you will connect and perform the automated operations.Default is HTTPS. Must include http:// if not HTTPS.",
+        "tooltip": "IP address or the hostname URL of the Cuckoo server to which you will connect and perform the automated operations.Default is HTTPS. Must include http:// if not HTTPS."
       },
       {
         "title": "Port Number",
-        "required": true,
-        "editable": true,
-        "visible": true,
         "type": "text",
-        "name": "port"
+        "name": "port",
+        "required": true,
+        "visible": true,
+        "editable": true,
+        "description": "Specify the Port number of the Cuckoo server to which you will connect and perform automated operations.",
+        "tooltip": "The default is usually 8090"
+      },
+      {
+        "title": "API Token",
+        "type": "password",
+        "name": "api_token",
+        "required": true,
+        "visible": true,
+        "editable": true,
+        "description": "Specify the API token configured for your account for using the Cuckoo APIs.",
+        "tooltip": "Token set in cuckoo.conf under [cuckoo] named api_token"
       }
     ]
   },
@@ -34,60 +48,67 @@
     {
       "operation": "submit_file",
       "title": "Submit File",
-      "description": "This action detonates the File in Cuckoo Sandbox",
+      "description": "This action submits the file for detonation on Cuckoo Sandbox for analysis.",
       "category": "investigation",
       "annotation": "submit_sample",
-      "output_schema": {"task_id" : ""},
+      "output_schema": {
+        "task_id": ""
+      },
       "enabled": true,
       "parameters": [
         {
-          "title": "File to detonate",
-          "required": true,
-          "editable": true,
-          "visible": true,
+          "title": "File To Detonate",
           "type": "text",
           "name": "file",
-          "value": ""
+          "required": true,
+          "visible": true,
+          "editable": true,
+          "value": "",
+          "description": "Specify a reference ID to access the attachment metadata from the FortiSOAR™ Attachments module."
         }
       ]
     },
     {
       "operation": "submit_url",
       "title": "Submit URL",
-      "description": "This Action detonates the URL in cuckoo Sandbox",
+      "description": "This action submits the URL for detonation on Cuckoo Sandbox for analysis.",
       "category": "investigation",
       "annotation": "submit_url",
-      "output_schema": {"task_id" : ""},
+      "output_schema": {
+        "task_id": ""
+      },
       "enabled": true,
       "parameters": [
         {
-          "title": "URL to detonate",
-          "required": true,
-          "editable": true,
-          "visible": true,
+          "title": "URL To Detonate",
           "type": "text",
           "name": "url",
-          "value": ""
+          "required": true,
+          "visible": true,
+          "editable": true,
+          "value": "",
+          "description": "specify the URL to detonate in the cuckoo sandbox"
         }
       ]
     },
     {
       "operation": "get_report",
       "title": "Get Report",
-      "description": "This Action detonates the URL in cuckoo Sandbox",
+      "description": "This Action gets the report from cuckoo Sandbox based on the task ID provided.",
       "category": "investigation",
       "annotation": "get_reputation",
       "output_schema": {},
       "enabled": true,
       "parameters": [
         {
-          "title": "TaskID of the Report",
-          "required": true,
-          "editable": true,
-          "visible": true,
+          "title": "Task ID Of The Report",
           "type": "text",
           "name": "taskid",
-          "value": ""
+          "required": true,
+          "visible": true,
+          "editable": true,
+          "value": "",
+          "description": "Specify the task ID of the report to get its details."
         }
       ]
     }

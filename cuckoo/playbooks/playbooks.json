@@ -57,7 +57,7 @@
                 "params": {
                   "taskid": "107"
                 },
-                "version": "1.0.0",
+                "version": "1.1.0",
                 "connector": "cuckoo",
                 "operation": "get_report",
                 "operationTitle": "Get Report",
@@ -199,7 +199,7 @@
                 "params": {
                   "file": "{{vars.file_iri}}"
                 },
-                "version": "1.0.0",
+                "version": "1.1.0",
                 "connector": "cuckoo",
                 "operation": "submit_file",
                 "operationTitle": "Submit File",
@@ -275,7 +275,7 @@
                 "params": {
                   "url": "www.malwareurl.com"
                 },
-                "version": "1.0.0",
+                "version": "1.1.0",
                 "connector": "cuckoo",
                 "operation": "submit_url",
                 "operationTitle": "Submit URL",
