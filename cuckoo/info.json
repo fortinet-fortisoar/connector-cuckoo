@@ -9,17 +9,17 @@
   "icon_small_name": "small.png",
   "icon_large_name": "large.png",
   "category": "Malware Analysis",
-  "help_online": "",
+  "help_online": "https://docs.fortinet.com/document/fortisoar/1.1.0/cuckoo/557/cuckoo-v1-1-0",
   "configuration": {
     "fields": [
       {
-        "title": "Server",
+        "title": "Server IP",
         "type": "text",
         "name": "server_ip",
         "required": true,
         "visible": true,
         "editable": true,
-        "description": "IP address or the hostname URL of the Cuckoo server to which you will connect and perform the automated operations.Default is HTTPS. Must include http:// if not HTTPS.",
+        "description": "Specify the IP of the Cuckoo sandbox server to which you will connect and perform the automated operations and the API token configured for your account for using the Cuckoo APIs.",
         "tooltip": "IP address or the hostname URL of the Cuckoo server to which you will connect and perform the automated operations.Default is HTTPS. Must include http:// if not HTTPS."
       },
       {
@@ -29,7 +29,7 @@
         "required": true,
         "visible": true,
         "editable": true,
-        "description": "Specify the Port number of the Cuckoo server to which you will connect and perform automated operations.",
+        "description": "Specify the port number of the server on which the API of the Cuckoo sandbox is running.",
         "tooltip": "The default is usually 8090"
       },
       {
@@ -48,7 +48,7 @@
     {
       "operation": "submit_file",
       "title": "Submit File",
-      "description": "This action submits the file for detonation on Cuckoo Sandbox for analysis.",
+      "description": "Submits a specific file for detonation on the Cuckoo Sandbox based on the specified reference ID of the file to be analyzed.",
       "category": "investigation",
       "annotation": "submit_sample",
       "output_schema": {
@@ -64,14 +64,14 @@
           "visible": true,
           "editable": true,
           "value": "",
-          "description": "Specify a reference ID to access the attachment metadata from the FortiSOAR™ Attachments module."
+          "description": "Specify the FortiSOAR™ File IRI to submit files directly from the FortiSOAR™ Attachments module to the Cuckoo sandbox server for analysis. In the playbook, this defaults to the {{vars.file_iri}} value."
         }
       ]
     },
     {
       "operation": "submit_url",
       "title": "Submit URL",
-      "description": "This action submits the URL for detonation on Cuckoo Sandbox for analysis.",
+      "description": "Submits a specific URL for detonation on Cuckoo Sandbox based on the specified URL to be analyzed.",
       "category": "investigation",
       "annotation": "submit_url",
       "output_schema": {
@@ -87,28 +87,28 @@
           "visible": true,
           "editable": true,
           "value": "",
-          "description": "specify the URL to detonate in the cuckoo sandbox"
+          "description": "Specify the URL that you want to submit to the Cuckoo sandbox for scanning and analyzing."
         }
       ]
     },
     {
       "operation": "get_report",
       "title": "Get Report",
-      "description": "This Action gets the report from cuckoo Sandbox based on the task ID provided.",
+      "description": "Retrieves a report from the Cuckoo server for the files or URLs that you had submitted to the Cuckoo server for analysis. Reports are retrieved based on the task_id of the sample. Based on the report you can determine the reputation of the submitted files or URLs.",
       "category": "investigation",
       "annotation": "get_reputation",
       "output_schema": {},
       "enabled": true,
       "parameters": [
         {
-          "title": "Task ID Of The Report",
+          "title": "Task ID",
           "type": "text",
           "name": "taskid",
           "required": true,
           "visible": true,
           "editable": true,
           "value": "",
-          "description": "Specify the task ID of the report to get its details."
+          "description": "Specify the Task ID for a previously submitted file or URL for which you want to retrieve an analysis report from the Cuckoo server."
         }
       ]
     }
