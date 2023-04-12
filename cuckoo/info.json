@@ -50,7 +50,7 @@
       "title": "Submit File",
       "description": "Submits a specific file for detonation on the Cuckoo Sandbox based on the specified reference ID of the file to be analyzed.",
       "category": "investigation",
-      "annotation": "submit_sample",
+      "annotation": "submit_file",
       "output_schema": {
         "task_id": ""
       },
@@ -96,7 +96,7 @@
       "title": "Get Report",
       "description": "Retrieves a report from the Cuckoo server for the files or URLs that you had submitted to the Cuckoo server for analysis. Reports are retrieved based on the task_id of the sample. Based on the report you can determine the reputation of the submitted files or URLs.",
       "category": "investigation",
-      "annotation": "get_reputation",
+      "annotation": "get_report",
       "output_schema": {},
       "enabled": true,
       "parameters": [
